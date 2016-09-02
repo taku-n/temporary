@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>index0000.html</title>
+<style>
+html {
+    font-size: 62.5%;
+}
+p {
+    font-size: 5.0rem;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+<p>
+</p>
+<script src="../jquery-3.0.0-beta1.js"></script>
+<script>
+
+function p_split(res)
+{
+    let p = new Promise((resolve, reject) => {
+        a = res.split(/\r\n|\n|\r/);  // 改行コードで分割
+        resolve(a);
+    });
+
+    return p;
+}
+
+function func(res)
+{
+    let i = 0;
+
+    return () => {
+        if (i < res.length)
+            $("p").text(res[i++]);
+    };
+    // closure
+}
+
+function print_array(res)
+{
+    const f = func(res);
+
+    interval = setInterval(f, 200);
+}
+
+$(function() {
+    $.ajax({
+        url: "romans01.txt"
+    }).then(
+        p_split,
+        error => {
+            console.error(error);
+        }
+    ).then(
+        print_array,
+        error => {
+            console.error(error);
+        }
+    );
+});
+
+</script>
+</body>
+
+</html>
+
